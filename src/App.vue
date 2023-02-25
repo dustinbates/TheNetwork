@@ -1,18 +1,29 @@
 <template>
-  <header>
-    <Navbar />
+
+  <header class="p-3">
+    <!-- <Navbar /> -->
+    <div>
+
+      <div class="my-5">
+        <Login />
+      </div>
+
+    </div>
   </header>
+
   <main>
     <router-view />
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+
+  <footer class="bg-dark text-light p-3">
   </footer>
+
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import Login from './components/Login.vue'
 import Navbar from './components/Navbar.vue'
 
 export default {
@@ -21,7 +32,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, Login }
 }
 </script>
 <style lang="scss">
@@ -35,6 +46,6 @@ export default {
 footer {
   display: grid;
   place-content: center;
-  height: 32px;
+  // height: 32px;
 }
 </style>

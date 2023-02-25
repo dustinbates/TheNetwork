@@ -8,6 +8,22 @@ class PostsService {
     const res = await api.get('api/posts')
     logger.log('getting posts', res.data)
     AppState.posts = res.data.posts.map(p => new Post(p))
+    AppState.totalPages = res.data.totalPages
+    AppState.page = res.data.page
+    AppState.newer = res.data.newer
+    AppState.older = res.data.older
+    logger.log(AppState.posts)
+  }
+
+  async changePage(direction){
+    const url = direction == 'newer' ? AppState.newer : AppState.older
+    const res = await api.get(url)
+    logger.log('getting posts', res.data)
+    AppState.posts = res.data.posts.map(p => new Post(p))
+    AppState.totalPages = res.data.totalPages
+    AppState.page = res.data.page
+    AppState.newer = res.data.newer
+    AppState.older = res.data.older
     logger.log(AppState.posts)
   }
 

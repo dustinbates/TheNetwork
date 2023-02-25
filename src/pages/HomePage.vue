@@ -1,4 +1,7 @@
 <template>
+  <div>
+    
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 m-auto mt-3">
@@ -10,12 +13,20 @@
         <PostCard :post="p" />
       </div>
     </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+        <button v-if="newer" @click="changePage('newer')" class="btn btn-outline-primary">Newer Posts</button>
+        <div class="fs-3 mx-4">{{ page }}</div>
+        <button v-if="older" @click="changePage('older')" class="btn btn-outline-primary">Older Posts</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { onMounted, computed } from 'vue';
 import { AppState } from '../AppState';
+import Navbar from '../components/Navbar.vue';
 import PostCard from '../components/PostCard.vue';
 import PostForm from '../components/PostForm.vue';
 import { postsService } from '../services/PostsService.js'
@@ -23,23 +34,36 @@ import Pop from '../utils/Pop';
 
 
 export default {
-    setup() {
-        async function getPosts() {
-            try {
-                await postsService.getPosts();
-            }
-            catch (error) {
-                Pop.error(error, "getting posts");
-            }
+  setup() {
+    async function getPosts() {
+      try {
+        await postsService.getPosts();
+      }
+      catch (error) {
+        Pop.error(error, "getting posts");
+      }
+    }
+
+  onMounted(() => {
+      getPosts();
+    });
+
+  return {
+      posts: computed(() => AppState.posts),
+      page: computed(() => AppState.page),
+      newer: computed(() => AppState.newer),
+      older: computed(() => AppState.older),
+      async changePage(direction){
+        try {
+          await postsService.changePage(direction)
+        } catch (error) {
+          Pop.error(error, 'changing page')
         }
-        onMounted(() => {
-            getPosts();
-        });
-        return {
-          posts: computed(() => AppState.posts)
-        };
-    },
-    components: { PostCard, PostForm }
+      }
+    };
+  },
+
+  components: { PostCard, PostForm, Navbar }
 }
 </script>
 
