@@ -1,16 +1,19 @@
 <template>
-  <div class="card">
+  <div v-if="appState.loggedIn" class="card">
     <div class="row justify-content-evenly">
       <div class="col-2 d-flex justify-content-center mt-4">
+        <router-link :to="{ name: 'Profile', params: { profileId: account.id } }">
         <img class="profile-pic" :src="account.picture" :alt="account.name">
+        </router-link>
       </div>
       <div class="col-9 m-2">
         <form @submit.prevent="handleSubmit()">
           <div class="text-center">
-            <textarea v-model="editable.body" type="text" class="form-control" id="body" placeholder="Share what's happening"></textarea>
+            <textarea v-model="editable.body" type="text" class="form-control" id="body"
+              placeholder="Share what's happening"></textarea>
           </div>
           <div>
-            <input v-model="editable.imgUrl" type="text" class="form-control" id="imgUrl" placeholder="Image URL..." >
+            <input v-model="editable.imgUrl" type="text" class="form-control" id="imgUrl" placeholder="Image URL...">
           </div>
           <div class="text-end">
             <button type="submit" class="btn btn-primary">
@@ -21,7 +24,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 
@@ -32,14 +34,15 @@ import { postsService } from '../services/PostsService';
 import Pop from '../utils/Pop';
 
 export default {
-  
-  setup(){
+
+  setup() {
     const editable = ref({})
     return {
       editable,
       account: computed(() => AppState.account),
+      appState: computed(() => AppState),
 
-      async handleSubmit(){
+      async handleSubmit() {
         try {
           await postsService.createPost(editable.value)
         } catch (error) {
@@ -53,11 +56,10 @@ export default {
 
 
 <style lang="scss" scoped>
-.profile-pic{
-    height: 64px;
-    width: 64px;
-    border-radius: 50%;
+.profile-pic {
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
 
-  }
-
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    
+
   </div>
-  <div class="container-fluid">
+  <div class="container-fluid main-margin">
     <div class="row">
       <div class="col-md-8 m-auto mt-3">
         <PostForm />
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, onUpdated } from 'vue';
 import { AppState } from '../AppState';
 import Navbar from '../components/Navbar.vue';
 import PostCard from '../components/PostCard.vue';
@@ -44,16 +44,19 @@ export default {
       }
     }
 
-  onMounted(() => {
+    onMounted(() => {
       getPosts();
     });
+    onUpdated(() => {
+      window.scrollTo(0, 0)
+    })
 
-  return {
+    return {
       posts: computed(() => AppState.posts),
       page: computed(() => AppState.page),
       newer: computed(() => AppState.newer),
       older: computed(() => AppState.older),
-      async changePage(direction){
+      async changePage(direction) {
         try {
           await postsService.changePage(direction)
         } catch (error) {
@@ -68,5 +71,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.main-margin{
+  margin-top: 10vh;
+}
 </style>

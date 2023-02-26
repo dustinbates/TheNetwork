@@ -17,4 +17,13 @@ export const AppState = reactive({
   older: {},
 
   totalPages: 0,
+
+  profile: null,
+
+  loggedIn: false,
+
+  profilePosts: [],
+
+  ads: [],
+
 })

@@ -15,6 +15,7 @@ class PostsService {
     logger.log(AppState.posts)
   }
 
+
   async changePage(direction){
     const url = direction == 'newer' ? AppState.newer : AppState.older
     const res = await api.get(url)
@@ -39,6 +40,23 @@ class PostsService {
     AppState.posts = AppState.posts.filter(p => p.id != id)
   }
 
+  async addLike(post, likeId){
+    console.log(post.likeIds.includes(likeId));
+    if(!post.likeIds.includes(likeId)){
+      let like = likeId
+      const res = await api.post('api/posts/' + post.id + '/like', like )
+      return  post.likeIds.push(like)
+      
+    } 
+    if(post.likeIds.includes(likeId)) {
+      let like = likeId
+      const res = await api.post('api/posts/' + post.id + '/like/', like)
+      let index = post.likeIds.findIndex(l => l == likeId)
+      return post.likeIds.splice(index, index + 1)
+      
+    }
+    
+  }
 }
 
 export const postsService = new PostsService() 
