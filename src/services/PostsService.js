@@ -1,4 +1,5 @@
 import { AppState } from "../AppState"
+import { Profile } from "../models/Profile"
 import { Post } from "../models/Post"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
@@ -14,7 +15,6 @@ class PostsService {
     AppState.older = res.data.older
     logger.log(AppState.posts)
   }
-
 
   async changePage(direction){
     const url = direction == 'newer' ? AppState.newer : AppState.older
@@ -55,7 +55,22 @@ class PostsService {
       return post.likeIds.splice(index, index + 1)
       
     }
-    
+  }
+
+  async searchPosts(searchData){
+    const res = await api.get('/api/posts?query=' + searchData.query) 
+    AppState.posts = res.data.posts.map(p => new Post(p))
+    AppState.totalPages = res.data.totalPages
+    AppState.page = res.data.page
+    AppState.newer = res.data.newer
+    AppState.older = res.data.older
+    logger.log(AppState.posts)
+  }
+
+  async searchProfiles(searchData){
+    const res = await api.get('/api/profiles?query=' + searchData.query) 
+    console.log(res.data);
+    AppState.profiles = res.data.map(p => new Profile(p))
   }
 }
 

@@ -9,8 +9,13 @@
       </div>
     </div>
     <div class="row">
-      <div v-for="p in posts" class="col-md-8 m-auto mt-3">
+      <div v-if="posts" v-for="p in posts" class="col-md-8 m-auto mt-3">
         <PostCard :post="p" />
+      </div>
+    </div>
+    <div class="row">
+      <div v-if="profiles" v-for="prof in profiles" class="col-md-8 m-auto mt-3">
+        <ProfileCard :profile="prof" />
       </div>
     </div>
     <div class="row">
@@ -29,6 +34,7 @@ import { AppState } from '../AppState';
 import Navbar from '../components/Navbar.vue';
 import PostCard from '../components/PostCard.vue';
 import PostForm from '../components/PostForm.vue';
+import ProfileCard from '../components/ProfileCard.vue';
 import { postsService } from '../services/PostsService.js'
 import Pop from '../utils/Pop';
 
@@ -52,6 +58,8 @@ export default {
     })
 
     return {
+      profiles: computed(() => AppState.profiles),
+      appState: computed(() => AppState),
       posts: computed(() => AppState.posts),
       page: computed(() => AppState.page),
       newer: computed(() => AppState.newer),
@@ -66,7 +74,7 @@ export default {
     };
   },
 
-  components: { PostCard, PostForm, Navbar }
+  components: { PostCard, PostForm, Navbar, ProfileCard }
 }
 </script>
 

@@ -5,7 +5,7 @@
         <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
       </div>
     </router-link>
-    <button
+    <!-- <button
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
@@ -15,19 +15,45 @@
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      
-      
+    </button> -->
+    <!-- <div class="collapse navbar-collapse" id="navbarText"> -->
+    <!-- </div> -->
+
+    <div>
+      <form @submit.prevent="searchPosts()">
+        <input v-model="editable.query"  type="text" class="form-control" placeholder="search...">
+        <button class="btn btn-outline-primary" type="submit">
+          <i class="mdi mdi-magnify"></i>
+        </button>
+      </form>
     </div>
+
   </nav>
 </template>
 
 <script>
+import { ref, computed } from 'vue';
+import { AppState } from '../AppState';
+import { postsService } from '../services/PostsService';
+import Pop from '../utils/Pop';
 import Login from './Login.vue'
 export default {
   setup() {
-    return {}
+    const editable = ref({})
+    return {
+      editable,
+      posts: computed(() => AppState.posts),
+      async searchPosts(){
+        try {
+          let searchData = editable.value
+          await postsService.searchPosts(searchData)
+          await postsService.searchProfiles(searchData)
+          editable.value = {}
+        } catch (error) {
+          Pop.error(error, 'searching posts')
+        }
+      }
+    }
   },
   components: { Login }
 }
