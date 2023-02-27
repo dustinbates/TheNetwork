@@ -27,7 +27,7 @@
 
       <p class="date" :datetime="post.createdAt"></p>
       <p class="card-text">{{ post.body }}</p>
-      <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title">
+      <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title" id="bodyImg" @error="brokenLink(post, 'bodyImg')">
       <div class="text-end">
         <i v-if="appState.loggedIn" @click="addLike()" class="mdi red fs-2 me-2" :class="{'mdi-heart-outline': !isLiked, 'mdi-heart': isLiked }">{{ post.likeIds.length }}
         </i>
@@ -85,6 +85,8 @@ export default {
       brokenLink(post, problem){
         if(problem == "profileImg"){
           post.creator.picture = 'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg'
+        } else if(problem == "bodyImg"){
+          post.imgUrl = 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80'
         }
       }
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12 text-center mt-5">
-      <i class="mdi mdi-loading mdi-spin load text-secondary"></i>
+      <p class="fs-3 text-secondary">Log in to start networking!</p>
     </div>
 
   </div>

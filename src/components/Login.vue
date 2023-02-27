@@ -1,11 +1,11 @@
 <template>
-  <span class="d-flex justify-content-end">
+  <span class="d-flex justify-content-start">
     <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
       v-if="!user.isAuthenticated">
       Login
     </button>
     <div v-else>
-      <div class="dropdown-center my-2 my-lg-0">
+      <div class="dropdown-right my-2 my-lg-0">
         <div type="button" class="border-0 selectable no-select" data-bs-toggle="dropdown"
           aria-expanded="false">
           <div v-if="account.picture || user.picture">
