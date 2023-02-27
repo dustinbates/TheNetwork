@@ -1,8 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 position-fixed">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 position-fixed justify-content-between">
+    <router-link @click="getPosts()" class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+        <!-- <img alt="logo" src="../assets/img/cw-logo.png" height="45" /> -->
+        <span><i class="mdi mdi-nativescript fs-1"></i><em class="fs-2"> e t w o r k</em></span>
       </div>
     </router-link>
     <!-- <button
@@ -21,10 +22,12 @@
 
     <div>
       <form @submit.prevent="searchPosts()">
-        <input v-model="editable.query"  type="text" class="form-control" placeholder="search...">
-        <button class="btn btn-outline-primary" type="submit">
-          <i class="mdi mdi-magnify"></i>
-        </button>
+        <div class="d-flex">
+          <input v-model="editable.query"  type="text" class="form-control" placeholder="Search...">
+            <button class="btn btn-outline-primary" type="submit">
+              <i class="mdi mdi-magnify"></i>
+            </button>
+        </div>
       </form>
     </div>
 
@@ -51,6 +54,13 @@ export default {
           editable.value = {}
         } catch (error) {
           Pop.error(error, 'searching posts')
+        }
+      },
+      async getPosts(){
+        try {
+          await postsService.getPosts()
+        } catch (error) {
+          Pop.error(error, 'getting posts')
         }
       }
     }

@@ -1,20 +1,33 @@
 <template>
   <div class="card text-start ">
     <div class="card-body">
-      <button v-if="post.creator.id == account.id" @click="deletePost()" class="btn btn-danger">
-        <i class="mdi mdi-delete"></i>
-      </button>
-      <span class="d-flex align-items-center mb-2">
-        <router-link :to="{ name: 'Profile', params: { profileId: post.creator.id } }">
-          <img class="profile-pic" :src="post.creator.picture" alt="">
-        </router-link>
-        <h4 class="card-title ms-3">{{ post.creator.name }}</h4>
-      </span>
+      <div class="d-flex justify-content-between">
+        <span class="d-flex align-items-center mb-2">
+          <router-link :to="{ name: 'Profile', params: { profileId: post.creator.id } }">
+            <img class="profile-pic" :src="post.creator.picture" alt="" @error="brokenLink(post, 'profileImg')">
+          </router-link>
+          <h4 class="card-title ms-3">{{ post.creator.name }}</h4>
+        </span>
+        <div v-if="post.creator.id == account.id" class="dropdown text-end">
+          <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+          </button>
+          <ul class="dropdown-menu text-center">
+            <li class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="deletePost()">
+              Delete
+              <i class="mdi mdi-delete"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
       <p class="date" :datetime="post.createdAt"></p>
       <p class="card-text">{{ post.body }}</p>
       <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title">
-      <div>
-        <i v-if="appState.loggedIn" @click="addLike()" class="mdi mdi-heart-outline">{{ post.likeIds.length }} </i>
+      <div class="text-end">
+        <i v-if="appState.loggedIn" @click="addLike()" class="mdi mdi-heart-outline fs-2 me-1">{{ post.likeIds.length }}
+        </i>
       </div>
     </div>
   </div>
@@ -40,9 +53,9 @@ export default {
 
   setup(props) {
 
-  onUpdated(() => {
-    timeago.render(document.querySelectorAll('.date'));
-  })
+    onUpdated(() => {
+      timeago.render(document.querySelectorAll('.date'));
+    })
 
 
     return {
@@ -66,6 +79,11 @@ export default {
           Pop.error(error, 'adding like')
         }
       },
+      brokenLink(post, problem){
+        if(problem == "profileImg"){
+          post.creator.picture = 'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg'
+        }
+      }
     }
   }
 }

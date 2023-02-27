@@ -1,12 +1,12 @@
 <template>
   <div v-if="profile" class="container-fluid">
-    <div class="card">
+    <div class="card margin">
       <div class="row">
         <div class="col-12 text-center">
-          <img :src="profile.coverImg" :alt="profile.name" class="img-fluid cover-image">
+          <img :src="profile.coverImg" :alt="profile.name" class="img-fluid cover-image" @error="brokenLink(profile, 'coverImg')">
         </div>
         <div class="col-12">
-          <img :src="profile.picture" :alt="profile.name" class="profile-picture rounded-circle">
+          <img :src="profile.picture" :alt="profile.name" class="profile-picture rounded-circle" @error="brokenLink(profile, 'profileImg')">
           <h1>{{ profile.name }}</h1>
           <i :class="`${profile.graduated ? 'mdi mdi-school' : ''}`"></i>
           <h2>{{ profile.class }}</h2>
@@ -40,8 +40,8 @@
       <PostForm />
     </div>
 
-    <div v-if="profilePosts">
-      <div v-for="p in profilePosts" class="mt-3">
+    <div v-if="profilePosts" >
+      <div  v-for="p in profilePosts" class="mt-3">
         <PostCard :post="p" />
       </div>
     </div>
@@ -59,7 +59,7 @@
 
 
 <script>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, onUpdated } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState';
 import PostCard from '../components/PostCard.vue';
@@ -94,6 +94,9 @@ export default {
       await getProfileById();
       await getPostsByProfileId();
     });
+    onUpdated(() => {
+      window.scrollTo(0, 0)
+    });
     return {
       appState: computed(() => AppState),
       profile: computed(() => AppState.profile),
@@ -107,6 +110,13 @@ export default {
           await postsService.changePage(direction)
         } catch (error) {
           Pop.error(error, 'changing page')
+        }
+      },
+      brokenLink(profile, problem){
+        if(problem == "profileImg"){
+          profile.picture = 'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg'
+        } else if(problem == "coverImg"){
+          profile.coverImg = 'https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg'
         }
       }
     }
@@ -129,5 +139,10 @@ export default {
   object-fit: cover;
   transform: translateY(-5em);
   margin-left: 3em;
+  position: relative;
+}
+
+.margin{
+  margin-top: 9vh;
 }
 </style>

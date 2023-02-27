@@ -9,16 +9,25 @@
       <div class="col-9 m-2">
         <form @submit.prevent="handleSubmit()">
           <div class="text-center">
-            <textarea v-model="editable.body" type="text" class="form-control" id="body"
+            <textarea v-model="editable.body" type="text" class="form-control" style="resize: none" id="body"
               placeholder="Share what's happening"></textarea>
           </div>
           <div>
-            <input v-model="editable.imgUrl" type="text" class="form-control" id="imgUrl" placeholder="Image URL...">
+            <input v-model="editable.imgUrl" type="url" class="form-control" id="imgUrl" placeholder="Image URL..." hidden>
           </div>
-          <div class="text-end">
-            <button type="submit" class="btn btn-primary">
-              <i class="mdi mdi-send"></i>
-            </button>
+          <div class="d-flex justify-content-between mt-2">
+            <div class="d-flex align-items-center">
+              <button @click="hideImgUrl('imgUrl')" type="button" class="btn btn-outline-primary">
+                <i class="mdi mdi-image"></i>
+              </button>
+              <p class="m-0 ms-1 p-0">Add Image</p>
+            </div>
+            <div class="d-flex align-items-center">
+              <button type="submit" class="btn btn-outline-primary">
+                <i class="mdi mdi-send"></i>
+              </button>
+              <p class="m-0 ms-1 p-0">Post</p>
+            </div>
           </div>
         </form>
       </div>
@@ -48,6 +57,9 @@ export default {
         } catch (error) {
           Pop.error(error, 'create post')
         }
+      },
+      hideImgUrl(){
+        imgUrl.hidden = !imgUrl.hidden
       }
     }
   }
