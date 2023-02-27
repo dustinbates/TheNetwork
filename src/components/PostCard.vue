@@ -1,12 +1,15 @@
 <template>
-  <div class="card text-start ">
+  <div class="card text-start shadow">
     <div class="card-body">
       <div class="d-flex justify-content-between">
         <span class="d-flex align-items-center mb-2">
           <router-link :to="{ name: 'Profile', params: { profileId: post.creator.id } }">
             <img class="profile-pic" :src="post.creator.picture" alt="" @error="brokenLink(post, 'profileImg')">
           </router-link>
-          <h4 class="card-title ms-3">{{ post.creator.name }}</h4>
+          <div class="d-flex align-items-center">
+            <h4 class="card-title ms-3">{{ post.creator.name }}</h4>
+            <i v-if="post.creator.graduated" class="mdi mdi-school fs-5 mb-1 ms-2"></i>
+          </div>
         </span>
         <div v-if="post.creator.id == account.id" class="dropdown text-end">
           <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -26,8 +29,9 @@
       <p class="card-text">{{ post.body }}</p>
       <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title">
       <div class="text-end">
-        <i v-if="appState.loggedIn" @click="addLike()" class="mdi mdi-heart-outline fs-2 me-1">{{ post.likeIds.length }}
+        <i v-if="appState.loggedIn" @click="addLike()" class="mdi red fs-2 me-2" :class="{'mdi-heart-outline': !isLiked, 'mdi-heart': isLiked }">{{ post.likeIds.length }}
         </i>
+        
       </div>
     </div>
   </div>
@@ -71,7 +75,6 @@ export default {
       },
       async addLike(post, likeId) {
         try {
-          // let post = props.post
           let likeId = this.account.id
           console.log(likeId)
           await postsService.addLike(props.post, likeId)
@@ -100,6 +103,10 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.541);
+}
 
+.red{
+  color: hotpink;
 }
 </style>

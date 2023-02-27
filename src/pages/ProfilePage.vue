@@ -5,33 +5,36 @@
         <div class="col-12 text-center">
           <img :src="profile.coverImg" :alt="profile.name" class="img-fluid cover-image" @error="brokenLink(profile, 'coverImg')">
         </div>
-        <div class="col-12">
-          <img :src="profile.picture" :alt="profile.name" class="profile-picture rounded-circle" @error="brokenLink(profile, 'profileImg')">
-          <h1>{{ profile.name }}</h1>
-          <i :class="`${profile.graduated ? 'mdi mdi-school' : ''}`"></i>
-          <h2>{{ profile.class }}</h2>
-
+        <div class="col-12 d-flex justify-content-between profileHeight">
+          <div class="d-flex">
+            <img :src="profile.picture" :alt="profile.name" class="profile-picture rounded-circle" @error="brokenLink(profile, 'profileImg')">
+            <h1 v-if="profile.name" class="ms-4 mt-1">{{ profile.name }}</h1>
+            <i :class="`${profile.graduated ? 'mdi mdi-school fs-1 ms-2' : ''}`"></i>
+          </div>
+          <div class="me-3">
+            <span v-if="profile.github">
+              <a :href="profile.github" target="_blank">
+                <i class="mdi mdi-github fs-1 ms-2"></i>
+              </a>
+            </span>
+            <span v-if="profile.linkedin">
+              <a :href="profile.linkedin" target="_blank">
+                <i class="mdi mdi-linkedin fs-1 ms-2"></i>
+              </a>
+            </span>
+            <span v-if="profile.resume">
+              <a :href="profile.resume" target="_blank">
+                <i class="mdi mdi-note fs-1 ms-2"></i>
+              </a>
+            </span>
+          </div>
         </div>
+        <h4 v-if="profile.class" class="ms-2"><em>Class of {{ profile.class }} </em></h4>
       </div>
       <div class="row">
-        <div class="col-12">
-          <span v-if="profile.github">
-            <a :href="profile.github" target="_blank">
-              <i class="mdi mdi-github fs-1"></i>
-            </a>
-          </span>
-          <span v-if="profile.linkedin">
-            <a :href="profile.linkedin" target="_blank">
-              <i class="mdi mdi-linkedin fs-1"></i>
-            </a>
-          </span>
-          <span v-if="profile.resume">
-            <a :href="profile.resume" target="_blank">
-              <i class="mdi mdi-note fs-1"></i>
-            </a>
-          </span>
+        <div class="col-12 m-2">
+          <h3 class="">{{ profile.bio }}</h3>
         </div>
-        <h3>{{ profile.bio }}</h3>
       </div>
 
     </div>
@@ -140,6 +143,13 @@ export default {
   transform: translateY(-5em);
   margin-left: 3em;
   position: relative;
+}
+
+.graduatedClass{
+}
+
+.profileHeight{
+  height: 11vh;
 }
 
 .margin{

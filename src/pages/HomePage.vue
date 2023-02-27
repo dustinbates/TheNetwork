@@ -7,6 +7,7 @@
       <div class="col-md-8 m-auto mt-3">
         <PostForm />
       </div>
+      
     </div>
     <div class="row">
       <div v-if="posts" v-for="p in posts" class="col-md-8 m-auto mt-3">
@@ -18,7 +19,7 @@
         <ProfileCard :profile="prof" />
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-2">
       <div class="col-12 d-flex justify-content-center">
         <button v-if="newer" @click="changePage('newer')" class="btn btn-outline-primary">Newer Posts</button>
         <div class="fs-3 mx-4">{{ page }}</div>
@@ -31,6 +32,7 @@
 <script>
 import { onMounted, computed, onUpdated } from 'vue';
 import { AppState } from '../AppState';
+import Loading from '../components/Loading.vue';
 import Navbar from '../components/Navbar.vue';
 import PostCard from '../components/PostCard.vue';
 import PostForm from '../components/PostForm.vue';
@@ -74,7 +76,7 @@ export default {
     };
   },
 
-  components: { PostCard, PostForm, Navbar, ProfileCard }
+  components: { PostCard, PostForm, Navbar, ProfileCard, Loading }
 }
 </script>
 

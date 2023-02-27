@@ -11,15 +11,15 @@
         <form @submit.prevent="editAccount()">
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input required v-model="editable.name" type="text" class="form-control" id="name" name="name">
+            <input required v-model="editable.name" type="text" maxLength="30" class="form-control" id="name" name="name">
           </div>
           <div class="mb-3">
             <label for="class" class="form-label">Class</label>
-            <input required v-model="editable.class" type="text" class="form-control" id="class" name="class">
+            <input required v-model="editable.class" type="text" maxLength="30" class="form-control" id="class" name="class">
           </div>
           <div class="mb-3">
             <label for="bio" class="form-label">Bio</label>
-            <input v-model="editable.bio" type="text" class="form-control" id="bio">
+            <input v-model="editable.bio" type="text" maxLength="500" class="form-control" id="bio">
           </div>
           <div class="mb-3">
             <label for="picture" class="form-label">Picture</label>

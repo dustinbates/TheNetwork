@@ -11,48 +11,52 @@
             <router-link :to="{ name: 'Profile', params: { profileId: appState.account.id } }">
               <img :src="appState.account.picture" :alt="appState.account.name" class="rounded-circle img-fluid">
             </router-link>
-            
           </div>
-          <div class="d-flex align-items-end">
+          <div class="d-flex align-items-center">
             <h6 class="p-0 m-0 mt-2">{{ appState.account.class }}</h6>
-            <i v-if="appState.account.graduated" class="mdi mdi-school fs-4 ms-3"></i>
+            <i v-if="appState.account.graduated" class="mdi mdi-school fs-4 ms-2 mt-1"></i>
           </div>
-          <div >
+          <div>
             <h2 class="p-0 m-0">{{ appState.account.name }}</h2>
           </div>
-          <div >
+          <div>
             <ul class="p-0">
-              <li v-if="appState.account.github">
+              <li v-if="appState.account.github" class="d-flex align-items-center">
                 <a :href="appState.account.github">
                   <i class="mdi mdi-github fs-1"></i>
                 </a>
+                <p class="m-0">Github</p>
               </li>
-              <li v-if="appState.account.linkedin">
+              <li v-if="appState.account.linkedin" class="d-flex align-items-center">
                 <a :href="appState.account.linkedin">
                   <i class="mdi mdi-linkedin fs-1"></i>
                 </a>
+                <p class="m-0">LinkedIn</p>
               </li>
-              <li v-if="appState.account.resume">
+              <li v-if="appState.account.resume" class="d-flex align-items-center">
                 <a :href="appState.account.resume">
                   <i class="mdi mdi-note fs-1"></i>
                 </a>
+                <p class="m-0">Resume</p>
               </li>
-              <li>
+              <li class="d-flex align-items-center">
                 <router-link :to="{ name: 'Account' }">
                   <i class="mdi mdi-cog fs-1"></i>
                 </router-link>
+                <p class="m-0">Account Settings</p>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-
-    <div>
-
-
+    <div v-else class="container-fluid">
+      <Loading />
     </div>
-    <AdCard />
+
+    <div class="mt-2">
+      <AdCard />
+    </div>
   </header>
 
   <main>
@@ -64,6 +68,7 @@
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import AdCard from './components/AdCard.vue'
+import Loading from './components/Loading.vue'
 import Login from './components/Login.vue'
 import Navbar from './components/Navbar.vue'
 
@@ -73,7 +78,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, Login, AdCard }
+  components: { Navbar, Login, AdCard, Loading }
 }
 </script>
 <style lang="scss">
