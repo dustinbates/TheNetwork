@@ -46,14 +46,14 @@ class PostsService {
       let like = likeId
       const res = await api.post('api/posts/' + post.id + '/like', like )
       return  post.likeIds.push(like)
-      
+      this.isLiked = false
     } 
     if(post.likeIds.includes(likeId)) {
       let like = likeId
       const res = await api.post('api/posts/' + post.id + '/like/', like)
       let index = post.likeIds.findIndex(l => l == likeId)
       return post.likeIds.splice(index, index + 1)
-      
+      this.isLiked = true
     }
   }
 
