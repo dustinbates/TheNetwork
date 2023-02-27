@@ -29,7 +29,7 @@
       <p class="card-text">{{ post.body }}</p>
       <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title" id="bodyImg" @error="brokenLink(post, 'bodyImg')">
       <div class="text-end">
-        <i v-if="appState.loggedIn" @click="addLike()" class="mdi red fs-2 me-2" :class="{'mdi-heart-outline': !isLiked, 'mdi-heart': isLiked }">{{ post.likeIds.length }}
+        <i v-if="appState.loggedIn" @click="addLike()" class="mdi mdi-heart-outline red fs-2 me-2">{{ post.likeIds.length }}
         </i>
         
       </div>

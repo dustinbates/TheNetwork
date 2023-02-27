@@ -51,9 +51,9 @@
 
     <div class="row">
       <div class="col-12 d-flex justify-content-center">
-        <button v-if="newer" @click="changePage('newer')" class="btn btn-outline-primary">Newer Posts</button>
+        <button v-if="newer" @click="changeProfilePage('newer')" class="btn btn-outline-primary">Newer Posts</button>
         <div class="fs-3 mx-4">{{ page }}</div>
-        <button v-if="older" @click="changePage('older')" class="btn btn-outline-primary">Older Posts</button>
+        <button v-if="older" @click="changeProfilePage('older')" class="btn btn-outline-primary">Older Posts</button>
       </div>
     </div>
 
@@ -108,9 +108,9 @@ export default {
       older: computed(() => AppState.older),
       profilePosts: computed(() => AppState.profilePosts),
       
-      async changePage(direction) {
+      async changeProfilePage(direction) {
         try {
-          await postsService.changePage(direction)
+          await profilesService.changeProfilePage(direction)
         } catch (error) {
           Pop.error(error, 'changing page')
         }

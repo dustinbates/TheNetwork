@@ -27,6 +27,19 @@ class ProfilesService {
     AppState.older = res.data.older
     
   }
+  async changeProfilePage(direction){
+    const url = direction == 'newer' ? AppState.newer : AppState.older
+    const res = await api.get(url)
+    logger.log('getting posts', res.data)
+    AppState.profilePosts = res.data.posts
+    AppState.totalPages = res.data.totalPages
+    AppState.page = res.data.page
+    AppState.newer = res.data.newer
+    AppState.older = res.data.older
+    logger.log(AppState.posts)
+  }
 }
+
+
 
 export const profilesService = new ProfilesService()
