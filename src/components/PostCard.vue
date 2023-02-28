@@ -28,10 +28,10 @@
       <p class="date" :datetime="post.createdAt"></p>
       <p class="card-text">{{ post.body }}</p>
       <img v-if="post.imgUrl" class="card-img-top img-fluid" :src="post.imgUrl" alt="Title" id="bodyImg" @error="brokenLink(post, 'bodyImg')">
-      <div class="text-end">
-        <i v-if="appState.loggedIn && !post.isLIked" @click="addLike()" class="mdi mdi-heart-outline red fs-2 me-2">{{ post.likeIds.length }}
+      <div class="text-end" v-if="appState.loggedIn">
+        <i v-if="!isLIked" @click="addLike()" class="mdi mdi-heart-outline red fs-2 me-2">{{ post.likeIds.length }}
         </i>
-        <i v-if="appState.loggedIn && post.isLIked" @click="addLike()" class="mdi mdi-heart red fs-2 me-2">{{ post.likeIds.length }}
+        <i v-else @click="addLike()" class="mdi mdi-heart red fs-2 me-2">{{ post.likeIds.length }}
         </i>
         
       </div>
@@ -67,6 +67,7 @@ export default {
     return {
       appState: computed(() => AppState),
       account: computed(() => AppState.account),
+      isLIked: computed(() => props.post.likeIds.includes(AppState.account.id)),
       async deletePost() {
         try {
           if (await Pop.confirm())
